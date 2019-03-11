@@ -4,11 +4,23 @@ git 에선 svn에서 git으로 전환을 지원한다.
 회사에서 svn repository를 git으로 전환할 일이 있어 다음 명령을 통해 svn 에서 git으로 전환 후 모든 branch를 밀어넣었다.
 더 상세한 내용은 git-scm.com의 git으로 이전하기를 참고하면 된다.
 
+1. git-svn install
+
+   ```bash
+   sudo yum install git git-svn
+   ```
+
 1. svn user list 생성(users.txt)
 
-   ```console
-   $ svn log ^/ --xml | grep -P "^<author" | sort -u | \
-         perl -pe 's/<author>(.*?)<\/author>/$1 = /' > users.txt
+   * 양식
+
+   ```text
+   tester1 = tester 1 <tester1@gmail.com>
+   tester2 = tester 2 <tester2@gmail.com>
+   ```
+
+   ```bash
+   svn log ^/ --xml | grep -P "^<author" | sort -u | perl -pe 's/<author>(.*?)<\/author>/$1 = /' > users.txt
    ```
 
 1. git repository 형식으로 svn repository clone하기
@@ -16,6 +28,10 @@ git 에선 svn에서 git으로 전환을 지원한다.
    ```shell
    git svn clone http://my-project.googlecode.com/svn/ --authors-file=users.txt --no-metadata -s my_project
    ```
+
+   * --authors: 위에서 생성한 svn 유저 리스트
+   * --no-metadata: svn의 메타데이터를 제외하고 clone
+   * -s: clone될 폴더 이름 지정
 
 1. svn tags branch를 git tag로 변환
 
