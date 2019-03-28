@@ -21,3 +21,10 @@
   ```shell
   rsync -avzh root@192.168.56.101:/home/backups ./backups
   ```
+
+* 제외 옵션
+  * --exclude=".git"
+
+  ```bash
+  rsync -avz --exclude=".git" --exclude=".svn" ./test_dir/ root@192.168.56.101:/root/backups/
+  ```
